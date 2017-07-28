@@ -37,12 +37,13 @@ public class DetailActivity  extends AppCompatActivity {
         tvVoteAverage = (TextView) findViewById(R.id.tv_movie_detail_vote_average);
         tvPlotSynopsis = (TextView) findViewById(R.id.tv_movie_detail_plot);
         ivPoster = (ImageView) findViewById(R.id.iv_movie_detail_poster);
-
-//        release date, movie poster, vote average, and plot synopsis.
     }
 
     private void initData() {
         if(movie == null){
+            if(getIntent() == null || !getIntent().hasExtra(MOVIE)){
+                return;
+            }
             movie = getIntent().getParcelableExtra(MOVIE);
         }
         tvTitle.setText(movie.getTitle());

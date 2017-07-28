@@ -21,12 +21,14 @@
         <ImageView
             android:id="@+id/iv_movie_detail_poster"
             android:layout_width="150dp"
-            android:layout_height="220dp" />
+            android:layout_height="220dp"
+            android:layout_margin="8dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/tv_movie_detail_release_day"
@@ -36,12 +38,14 @@
             <TextView
                 android:id="@+id/tv_movie_detail_vote_average"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_movie_detail_plot"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"/>
 </LinearLayout>

@@ -67,7 +67,7 @@ public class MainDiscoveryActivity extends AppCompatActivity {
 
     private void initViews() {
         rVMainDiscovery = (RecyclerView) findViewById(R.id.rv_main_discovery);
-        GridLayoutManager gLManager = new GridLayoutManager(getBaseContext(), 2);
+        GridLayoutManager gLManager = new GridLayoutManager(getBaseContext(), getResources().getInteger(R.integer.grid_columns));
         rVMainDiscovery.setLayoutManager(gLManager);
         if(oDICListener == null){
             oDICListener = new DiscoveryAdapter.OnDiscoverItemClickListener() {
