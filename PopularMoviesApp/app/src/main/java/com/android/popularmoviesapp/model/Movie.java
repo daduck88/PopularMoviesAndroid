@@ -3,6 +3,8 @@ package com.android.popularmoviesapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.android.popularmoviesapp.R;
+import com.android.popularmoviesapp.app.App;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -50,8 +52,8 @@ public class Movie implements Parcelable {
     @Expose
     private double voteAverage;
 
-    public String getPosterPath() {
-        return posterPath;
+    public String getPosterPathURL() {
+        return App.context.getString(R.string.url_image_thumb_path) + posterPath;
     }
 
     public void setPosterPath(String posterPath) {
@@ -146,8 +148,8 @@ public class Movie implements Parcelable {
         this.video = video;
     }
 
-    public double getVoteAverage() {
-        return voteAverage;
+    public String getVoteAverage() {
+        return String.valueOf(voteAverage);
     }
 
     public void setVoteAverage(double voteAverage) {

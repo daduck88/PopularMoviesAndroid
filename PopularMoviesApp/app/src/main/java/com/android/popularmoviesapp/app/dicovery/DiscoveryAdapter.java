@@ -1,15 +1,16 @@
 package com.android.popularmoviesapp.app.dicovery;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.android.popularmoviesapp.R;
 import com.android.popularmoviesapp.app.App;
 import com.android.popularmoviesapp.model.Movie;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -20,21 +21,20 @@ import java.util.ArrayList;
 public class DiscoveryAdapter extends RecyclerView.Adapter<DiscoveryAdapter.ViewHolder> {
     private final OnDiscoverItemClickListener listener;
     private ArrayList<Movie> items = new ArrayList<>();
-    private String urlImagePath;
 
     public interface OnDiscoverItemClickListener {
         void onItemClick(Movie movie);
     }
 
-    public DiscoveryAdapter(OnDiscoverItemClickListener listener){
+    public DiscoveryAdapter(OnDiscoverItemClickListener listener) {
         this.listener = listener;
-        this.urlImagePath = App.context.getString(R.string.url_image_thumb_path);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie, parent, false);
-        return new ViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_movie, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -49,26 +49,23 @@ public class DiscoveryAdapter extends RecyclerView.Adapter<DiscoveryAdapter.View
 
     public void setItems(ArrayList<Movie> newItems) {
         items = newItems;
+
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private ImageView iVItemMovie;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        private final ViewDataBinding binding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            iVItemMovie = (ImageView) itemView.findViewById(R.id.iv_item_movie);
-            itemView.setOnClickListener(this);
-        }
-        public void bind(Movie movie){
-            String path = urlImagePath + movie.getPosterPath();
-            Picasso.with(itemView.getContext()).load(path).into(iVItemMovie);
+        public ViewHolder(ViewDataBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.binding.setVariable(BR.listener, listener);
         }
 
-        @Override
-        public void onClick(View v) {
-            Movie movie = items.get(getAdapterPosition());
-            listener.onItemClick(movie);
+        public void bind(Movie movie) {
+            binding.setVariable(BR.movie, movie);
+            binding.executePendingBindings();
         }
     }
 }

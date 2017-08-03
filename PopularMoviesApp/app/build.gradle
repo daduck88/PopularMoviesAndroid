@@ -11,10 +11,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-
-        def Properties properties = new Properties()
         buildConfigField "String", "API_KEY", getProps('api_key')
 
+    }
+    dataBinding {
+        enabled = true
     }
     buildTypes {
         release {
