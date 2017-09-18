@@ -1,4 +1,4 @@
-package com.android.popularmoviesapp.app.dicovery;
+package com.android.popularmoviesapp.app.discovery;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.android.popularmoviesapp.R;
 import com.android.popularmoviesapp.app.App;
 import com.android.popularmoviesapp.app.detail.DetailActivity;
-import com.android.popularmoviesapp.model.Movie;
+import com.android.popularmoviesapp.data.model.Movie;
 import com.android.popularmoviesapp.rest.responses.ResponseMovies;
 
 import retrofit2.Call;

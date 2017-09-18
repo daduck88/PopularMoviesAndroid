@@ -4,10 +4,10 @@
     <data>
         <variable
             name="movie"
-            type="com.android.popularmoviesapp.model.Movie"/>
+            type="com.android.popularmoviesapp.data.model.Movie"/>
         <variable
             name="listener"
-            type="com.android.popularmoviesapp.app.dicovery.DiscoveryAdapter.OnDiscoverItemClickListener"/>
+            type="com.android.popularmoviesapp.app.discovery.DiscoveryAdapter.OnDiscoverItemClickListener"/>
     </data>
     <FrameLayout
         android:layout_width="match_parent"

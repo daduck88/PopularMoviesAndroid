@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.android.popularmoviesapp.R;
+import com.android.popularmoviesapp.data.MovieDbHelper;
 import com.android.popularmoviesapp.rest.RestClient;
 import com.facebook.stetho.Stetho;
 
@@ -15,6 +16,7 @@ public class App extends Application {
 
     private static RestClient restClient;
     public static Context context;
+    public static MovieDbHelper dbHelper;
 
     @Override
     public void onCreate() {
@@ -31,5 +33,12 @@ public class App extends Application {
 
     public static RestClient getRestClient() {
         return restClient;
+    }
+
+    public static MovieDbHelper getDBHelper(){
+        if(dbHelper == null){
+            dbHelper = new MovieDbHelper(context);
+        }
+        return dbHelper;
     }
 }

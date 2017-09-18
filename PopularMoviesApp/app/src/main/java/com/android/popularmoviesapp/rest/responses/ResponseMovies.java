@@ -1,6 +1,6 @@
 package com.android.popularmoviesapp.rest.responses;
 
-import com.android.popularmoviesapp.model.Movie;
+import com.android.popularmoviesapp.data.model.Movie;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

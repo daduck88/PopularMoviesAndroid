@@ -2,4 +2,6 @@
     <string name="app_name">Popular Movies App</string>
     <string name="action_popular">Popular</string>
     <string name="action_top_rated">Top Rated</string>
+
+    <string name="content_authority">com.android.popularmoviesapp</string>
 </resources>

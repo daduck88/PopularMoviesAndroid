@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".app.dicovery.MainDiscoveryActivity">
+        <activity android:name=".app.discovery.MainDiscoveryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".app.detail.DetailActivity" />
+
+        <!-- Our ContentProvider -->
+        <provider
+            android:name=".data.MovieProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
     </application>
 
 </manifest>

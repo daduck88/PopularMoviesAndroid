@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.android.popularmoviesapp.R;
 import com.android.popularmoviesapp.databinding.ActivityMovieDetailBinding;
-import com.android.popularmoviesapp.model.Movie;
+import com.android.popularmoviesapp.data.model.Movie;
 
 /**
  * Created by Daduck on 7/27/17.

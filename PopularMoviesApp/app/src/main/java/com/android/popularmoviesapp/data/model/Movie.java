@@ -1,4 +1,4 @@
-package com.android.popularmoviesapp.model;
+package com.android.popularmoviesapp.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -54,6 +54,10 @@ public class Movie implements Parcelable {
 
     public String getPosterPathURL() {
         return App.context.getString(R.string.url_image_thumb_path) + posterPath;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public void setPosterPath(String posterPath) {

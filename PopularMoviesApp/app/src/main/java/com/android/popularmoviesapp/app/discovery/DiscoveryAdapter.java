@@ -1,16 +1,14 @@
-package com.android.popularmoviesapp.app.dicovery;
+package com.android.popularmoviesapp.app.discovery;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.android.popularmoviesapp.BR;
 import com.android.popularmoviesapp.R;
-import com.android.popularmoviesapp.app.App;
-import com.android.popularmoviesapp.model.Movie;
+import com.android.popularmoviesapp.data.model.Movie;
 
 import java.util.ArrayList;
 
