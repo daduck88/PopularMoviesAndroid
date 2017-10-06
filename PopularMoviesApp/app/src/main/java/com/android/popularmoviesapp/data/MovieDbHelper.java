@@ -32,7 +32,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
      */
     public static final String DATABASE_NAME = "movies.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,7 +58,9 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 MovieEntry.COLUMN_ID                + " INTEGER PRIMARY KEY, "      +
                 MovieEntry.COLUMN_TITLE             + " VARCHAR NOT NULL, "         +
                 MovieEntry.COLUMN_POSTER_PATH       + " VARCHAR NOT NULL, "         +
-
+                MovieEntry.RELEASE_DATE             + " VARCHAR NOT NULL, "         +
+                MovieEntry.VOTE_AVERAGE             + " VARCHAR NOT NULL, "         +
+                MovieEntry.OVERVIEW                 + " VARCHAR NOT NULL, "         +
                     /*
                      * To ensure this table can only contain one weather entry per date, we declare
                      * the date column to be unique. We also specify "ON CONFLICT REPLACE". This tells

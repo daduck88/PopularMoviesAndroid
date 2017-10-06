@@ -30,6 +30,12 @@ public class MovieContract {
 
         public static final String COLUMN_POSTER_PATH = "posterPath";
 
+        public static final String RELEASE_DATE = "releaseDate";
+
+        public static final String VOTE_AVERAGE = "voteAverage";
+
+        public static final String OVERVIEW = "overview";
+
         /**
          * @param id
          * @return Uri to query details about a single movie entry

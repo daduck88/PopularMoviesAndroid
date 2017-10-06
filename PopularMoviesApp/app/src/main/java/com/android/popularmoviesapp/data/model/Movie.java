@@ -51,6 +51,7 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     @Expose
     private double voteAverage;
+    private boolean favorite;
 
     public String getPosterPathURL() {
         return App.context.getString(R.string.url_image_thumb_path) + posterPath;
@@ -160,6 +161,18 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public String getFavoriteButtonAction(){
+        return favorite ? "REMOVE FROM \n FAVORITE" : "MARK AS \n FAVORITE";
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -180,6 +193,7 @@ public class Movie implements Parcelable {
         dest.writeInt(this.voteCount);
         dest.writeByte(this.video ? (byte) 1 : (byte) 0);
         dest.writeDouble(this.voteAverage);
+        dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);
     }
 
     public Movie() {
@@ -199,6 +213,7 @@ public class Movie implements Parcelable {
         this.voteCount = in.readInt();
         this.video = in.readByte() != 0;
         this.voteAverage = in.readDouble();
+        this.favorite = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by Daduck on 7/26/17.
  */
 
-public class ResponseMovies {
+public class ResponsePaginated<K> {
 
     @SerializedName("page")
     @Expose
@@ -18,7 +18,7 @@ public class ResponseMovies {
 
     @SerializedName("results")
     @Expose
-    private ArrayList<Movie> results;
+    private ArrayList<K> results;
 
     @SerializedName("total_results")
     @Expose
@@ -37,11 +37,11 @@ public class ResponseMovies {
         this.page = page;
     }
 
-    public ArrayList<Movie> getResults() {
+    public ArrayList<K> getResults() {
         return results;
     }
 
-    public void setResults(ArrayList<Movie> results) {
+    public void setResults(ArrayList<K> results) {
         this.results = results;
     }
 

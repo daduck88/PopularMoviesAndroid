@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.android.popularmoviesapp"
         minSdkVersion 15
@@ -54,6 +54,7 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:recyclerview-v7:25.4.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'

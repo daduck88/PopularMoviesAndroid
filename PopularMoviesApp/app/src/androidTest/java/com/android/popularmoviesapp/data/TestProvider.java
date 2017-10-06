@@ -26,32 +26,30 @@ public class TestProvider {
 
     private final Context mContext = InstrumentationRegistry.getTargetContext();
 
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_POSTER_PATH = "posterPath";
-
     @Test
     public void contentInsertQueryDelete() throws Exception {
         ContentResolver contentResolver = mContext.getContentResolver();
 
         Movie movie1 = TestStaticMovies.getMovie1();
-        ContentValues moviesValues = createInsertTestMovieValues(movie1);
+        ContentValues moviesValues = MovieDBUtils.getContentValuesFromMovie(movie1);
         Uri result = contentResolver.insert(MovieContract.MovieEntry.CONTENT_URI, moviesValues);
         assertEquals("Not create movie " + movie1.getTitle(), "" + movie1.getId() , result.getLastPathSegment());
 
         Movie movie2 = TestStaticMovies.getMovie2();
-        ContentValues moviesValues2 = createInsertTestMovieValues(movie2);
+        ContentValues moviesValues2 = MovieDBUtils.getContentValuesFromMovie(movie2);
         result = contentResolver.insert(MovieContract.MovieEntry.CONTENT_URI, moviesValues2);
         assertEquals("Not create movie " + movie2.getTitle(), "" + movie2.getId() , result.getLastPathSegment());
 
         Movie movie3 = TestStaticMovies.getMovie3();
-        ContentValues moviesValues3 = createInsertTestMovieValues(movie3);
+        ContentValues moviesValues3 = MovieDBUtils.getContentValuesFromMovie(movie3);
         result = contentResolver.insert(MovieContract.MovieEntry.CONTENT_URI, moviesValues3);
         assertEquals("Not create movie " + movie3.getTitle(), "" + movie3.getId() , result.getLastPathSegment());
 
 
         Cursor cursorResult = contentResolver.query(MovieContract.MovieEntry.CONTENT_URI, null, null, null, null);
         assertSame("Not get all movies movie ", 3 , cursorResult.getCount());
+        cursorResult = contentResolver.query(MovieProvider.getUriFromMovie(movie1), null, null, null, null);
+        assertSame("Not query movie " + movie1.getTitle(), 1, cursorResult.getCount());
 
         int resultDelete = contentResolver.delete(MovieProvider.getUriFromMovie(movie1), null, null);
         assertSame("Not delete movie " + movie1.getTitle(), 1 , resultDelete);
@@ -61,13 +59,4 @@ public class TestProvider {
         assertSame("Not delete movie " + movie3.getTitle(), 1 , resultDelete);
     }
 
-
-
-    static ContentValues createInsertTestMovieValues(Movie movie) {
-        ContentValues movieValues = new ContentValues();
-        movieValues.put(COLUMN_ID, movie.getId());
-        movieValues.put(COLUMN_TITLE, movie.getTitle());
-        movieValues.put(COLUMN_POSTER_PATH, movie.getPosterPath());
-        return movieValues;
-    }
 }
