@@ -1,5 +1,6 @@
 package com.android.popularmoviesapp.app.detail;
 
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -175,7 +176,13 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
                     Uri uri = Uri.parse(video_path);
                     uri = Uri.parse("vnd.youtube:"  + uri.getQueryParameter("v"));
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    ctx.startActivity(intent);
+                    try {
+                        ctx.startActivity(intent);
+                    }catch (ActivityNotFoundException e){
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(video_path));
+                        ctx.startActivity(i);
+                    }
                 }
             });
         }
