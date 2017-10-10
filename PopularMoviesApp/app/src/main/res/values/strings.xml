@@ -5,4 +5,6 @@
     <string name="action_favorites">Favorites</string>
 
     <string name="content_authority">com.android.popularmoviesapp</string>
+    <string name="removed_favorites">Movie removed from favorites</string>
+    <string name="added_favorites">Movie added to favorites</string>
 </resources>

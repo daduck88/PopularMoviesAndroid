@@ -11,13 +11,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/default_medium"
         android:orientation="vertical">
         <TextView
             android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/default_medium"
             android:text="Trailers:"
             android:visibility="@{video.first}"/>
         <LinearLayout
@@ -26,13 +26,13 @@
             android:orientation="horizontal"
             android:onClick="@{(theView) -> listener.onVideoClick(video, theView)}">
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/default_medium"
+                android:layout_height="@dimen/default_medium"
                 android:src="@drawable/ic_play"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="@dimen/default_medium"
                 android:text="@{video.label, default=kskskskksksslskksk}"/>
         </LinearLayout>
     </LinearLayout>

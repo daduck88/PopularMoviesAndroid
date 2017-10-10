@@ -1,10 +1,20 @@
 package com.android.popularmoviesapp.app.detail;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.popularmoviesapp.R;
@@ -14,9 +24,9 @@ import com.android.popularmoviesapp.data.model.Review;
 import com.android.popularmoviesapp.data.model.Video;
 import com.android.popularmoviesapp.rest.responses.ResponseMovieVideos;
 import com.android.popularmoviesapp.rest.responses.ResponsePaginated;
+import com.android.popularmoviesapp.utils.DataBinder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +41,9 @@ public class DetailActivity  extends AppCompatActivity {
     public static final String VIDEOS = "VIDEOS";
     public static final String REVIEWS = "REVIEWS";
     private Movie movie;
-    RecyclerView rVMainDiscovery;
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    ImageView iVBackdrop;
+    RecyclerView rVDetail;
     DetailAdapter dAdapter;
     private ArrayList<Video> videoList;
     private ArrayList<Review> reviewList;
@@ -54,6 +66,14 @@ public class DetailActivity  extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initViews() {
         if(movie == null){
             if(getIntent() == null || !getIntent().hasExtra(MOVIE)){
@@ -61,14 +81,28 @@ public class DetailActivity  extends AppCompatActivity {
             }
             movie = getIntent().getParcelableExtra(MOVIE);
         }
-        rVMainDiscovery = (RecyclerView) findViewById(R.id.rv_detail_movie);
-        rVMainDiscovery.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        rVDetail = (RecyclerView) findViewById(R.id.rv_detail_movie);
+        rVDetail.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         if(dAdapter == null){
             dAdapter = new DetailAdapter(movie, this);
         }
-        rVMainDiscovery.setAdapter(dAdapter);
-        rVMainDiscovery.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        rVDetail.setAdapter(dAdapter);
+        rVDetail.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        iVBackdrop = (ImageView) findViewById(R.id.iv_detail_backdrop);
+        DataBinder.imageUrl(iVBackdrop, movie.getBackdropPathURL());
         updateVideosReviews();
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(movie.getTitle());
+
+        dynamicToolbarColor();
+        toolbarTextAppernce();
     }
 
     private void updateVideosReviews(){
@@ -117,5 +151,16 @@ public class DetailActivity  extends AppCompatActivity {
                 }
             });
         }
+    }
+
+
+    private void dynamicToolbarColor() {
+        collapsingToolbarLayout.setContentScrimColor(getColor(R.color.colorPrimary));
+        collapsingToolbarLayout.setStatusBarScrimColor(getColor(R.color.colorPrimaryDark));
+    }
+
+    private void toolbarTextAppernce() {
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
     }
 }

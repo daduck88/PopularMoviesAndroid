@@ -57,6 +57,10 @@ public class Movie implements Parcelable {
         return App.context.getString(R.string.url_image_thumb_path) + posterPath;
     }
 
+    public String getBackdropPathURL() {
+        return App.context.getString(R.string.url_image_back_drop_path) + backdropPath;
+    }
+
     public String getPosterPath() {
         return posterPath;
     }

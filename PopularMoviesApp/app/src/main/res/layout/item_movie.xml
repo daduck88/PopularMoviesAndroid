@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="270dp"
+            android:minHeight="@dimen/discovery_item_height"
             android:scaleType="centerCrop"
             app:imageUrl="@{movie.posterPathURL}"
             android:onClick="@{(theView) -> listener.onItemClick(movie)}"/>

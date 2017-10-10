@@ -29,6 +29,7 @@ import retrofit2.Response;
 public class MainDiscoveryActivity extends AppCompatActivity {
 
     private static final String SORT_BY = "SORT_BY";
+    private static final String GRID_POSITION = "GRID_POSITION";
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private static final String FAVORITES = "FAVORITES";
@@ -36,6 +37,7 @@ public class MainDiscoveryActivity extends AppCompatActivity {
     DiscoveryAdapter dAdapter;
     private DiscoveryAdapter.OnDiscoverItemClickListener oDICListener;
     private String sortBy;
+    private int gridPosition;
     private ArrayList<Movie> moviesList;
 
     @Override
@@ -44,6 +46,7 @@ public class MainDiscoveryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_discovery);
         if(savedInstanceState != null){
             sortBy = savedInstanceState.getString(SORT_BY);
+            gridPosition = savedInstanceState.getInt(GRID_POSITION);
         }
         initViews();
         initData();
@@ -52,6 +55,8 @@ public class MainDiscoveryActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putString(SORT_BY, sortBy);
+        savedInstanceState.putInt(GRID_POSITION,
+                ((GridLayoutManager)rVMainDiscovery.getLayoutManager()).findFirstVisibleItemPosition());
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -131,6 +136,8 @@ public class MainDiscoveryActivity extends AppCompatActivity {
             if (cursorResult != null && cursorResult.getCount() > 0){
                 moviesList = MovieDBUtils.cursorToMovies(cursorResult);
                 dAdapter.setItems(moviesList);
+                rVMainDiscovery.scrollToPosition(gridPosition);
+                gridPosition = 0;
             } else {
                 moviesList = new ArrayList<>();
                 //empty favorite movies
@@ -145,6 +152,8 @@ public class MainDiscoveryActivity extends AppCompatActivity {
                         if (dAdapter != null) {
                             moviesList = response.body().getResults();
                             dAdapter.setItems(moviesList);
+                            rVMainDiscovery.scrollToPosition(gridPosition);
+                            gridPosition = 0;
                         }
                     } else {
                         Toast.makeText(getBaseContext(), "something goes wrong ", Toast.LENGTH_SHORT).show();

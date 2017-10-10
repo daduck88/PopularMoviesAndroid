@@ -2,5 +2,6 @@
 <resources>
     <string name="base_url">http://api.themoviedb.org/3/</string>
     <string name="url_image_thumb_path">http://image.tmdb.org/t/p/w185/</string>
+    <string name="url_image_back_drop_path">https://image.tmdb.org/t/p/w342/</string>
     <string name="youtube_url">https://www.youtube.com/watch?v=</string>
 </resources>

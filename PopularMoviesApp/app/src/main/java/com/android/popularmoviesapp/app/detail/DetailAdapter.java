@@ -1,6 +1,5 @@
 package com.android.popularmoviesapp.app.detail;
 
-import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +8,7 @@ import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,19 +37,21 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
     private static final int REVIEW_TYPE = 2;
     private Movie movie;
     private ContentResolver contentResolver;
+    private Context ctx;
     private List<Video> videoList;
     private List<Review> reviewsList;
 
     public DetailAdapter(Movie movie, Context ctx) {
         this.movie = movie;
         contentResolver = ctx.getContentResolver();
+        this.ctx = ctx;
     }
 
     @Override
     public BaseDetailHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ViewDataBinding binding;
-        switch (viewType){
+        switch (viewType) {
             case HEADER_TYPE:
                 binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_movie_detail_header, parent, false);
                 return new HeaderHolder(binding);
@@ -71,10 +73,10 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
     @Override
     public int getItemCount() {
         int itemCount = 1;//header
-        if(videoList != null){
+        if (videoList != null) {
             itemCount += videoList.size();
         }
-        if(reviewsList != null){
+        if (reviewsList != null) {
             itemCount += reviewsList.size();
         }
         return itemCount;
@@ -82,11 +84,11 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
+        if (position == 0) {
             return HEADER_TYPE;
         }
         int posotionsToIgnore = 1;
-        if(videoList != null && position < (videoList.size() +1)){
+        if (videoList != null && position < (videoList.size() + 1)) {
             return VIDEO_TYPE;
         }
         return REVIEW_TYPE;
@@ -104,13 +106,15 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
 
     public abstract class BaseDetailHolder extends RecyclerView.ViewHolder {
         protected ViewDataBinding binding;
+
         public BaseDetailHolder(View itemView) {
             super(itemView);
         }
+
         public abstract void onBind(int position);
     }
 
-    private class HeaderHolder extends BaseDetailHolder{
+    private class HeaderHolder extends BaseDetailHolder {
 
         public HeaderHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -118,9 +122,9 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
             this.binding.setVariable(BR.listener, new OnFavoriteClickListener() {
                 @Override
                 public void onFavoriteClick() {
-                    if(movie.isFavorite()){
+                    if (movie.isFavorite()) {
                         removeMovieFromFavorites();
-                    }else {
+                    } else {
                         addMovieToFavorites();
                     }
                 }
@@ -136,23 +140,26 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
         private void addMovieToFavorites() {
             ContentValues moviesValues = MovieDBUtils.getContentValuesFromMovie(movie);
             Uri result = contentResolver.insert(MovieContract.MovieEntry.CONTENT_URI, moviesValues);
-            if(result.getLastPathSegment().equalsIgnoreCase("" + movie.getId())){
+            if (result.getLastPathSegment().equalsIgnoreCase("" + movie.getId())) {
                 movie.setFavorite(true);
                 binding.invalidateAll();
-
+                showSnackBar(R.string.added_favorites);
             }
         }
 
         private void removeMovieFromFavorites() {
-            int resultDelete = contentResolver.delete(MovieProvider.getUriFromMovie(movie), null, null);
-            if(resultDelete == 1){
+            int resultDelete =
+                contentResolver.delete(MovieProvider.getUriFromMovie(movie), null, null);
+            if (resultDelete == 1) {
                 movie.setFavorite(false);
                 binding.invalidateAll();
+                showSnackBar(R.string.removed_favorites);
             }
         }
 
         private void checkMovieOnFavorites() {
-            Cursor cursorResult = contentResolver.query(MovieProvider.getUriFromMovie(movie), null, null, null, null);
+            Cursor cursorResult =
+                contentResolver.query(MovieProvider.getUriFromMovie(movie), null, null, null, null);
             if (cursorResult != null && cursorResult.moveToFirst()) {
                 Movie tempMovie = MovieDBUtils.cursorToMovie(cursorResult);
                 if (tempMovie != null) {
@@ -163,7 +170,13 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
         }
     }
 
-    private class VideoHolder extends BaseDetailHolder{
+    private void showSnackBar(int stringId) {
+        Snackbar mySnackbar = Snackbar.make(((DetailActivity) ctx).findViewById(R.id.rv_detail_movie),
+                stringId, Snackbar.LENGTH_SHORT);
+        mySnackbar.show();
+    }
+
+    private class VideoHolder extends BaseDetailHolder {
 
         public VideoHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -174,22 +187,16 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
                     Context ctx = view.getContext();
                     String video_path = ctx.getString(R.string.youtube_url) + video.getKey();
                     Uri uri = Uri.parse(video_path);
-                    uri = Uri.parse("vnd.youtube:"  + uri.getQueryParameter("v"));
+                    uri = Uri.parse("vnd.youtube:" + uri.getQueryParameter("v"));
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    try {
-                        ctx.startActivity(intent);
-                    }catch (ActivityNotFoundException e){
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(video_path));
-                        ctx.startActivity(i);
-                    }
+                    ctx.startActivity(intent);
                 }
             });
         }
 
         @Override
         public void onBind(int position) {
-            Video video = videoList.get(position -1);
+            Video video = videoList.get(position - 1);
             video.setLabel("Trailer " + position);
             video.setFirst(position == 1);
             binding.setVariable(BR.video, video);
@@ -197,7 +204,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
         }
     }
 
-    private class ReviewHolder extends BaseDetailHolder{
+    private class ReviewHolder extends BaseDetailHolder {
 
         public ReviewHolder(ViewDataBinding binding) {
             super(binding.getRoot());
@@ -207,7 +214,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.BaseDetail
         @Override
         public void onBind(int position) {
             int positionsToIgnore = 1;
-            if(videoList != null){
+            if (videoList != null) {
                 positionsToIgnore += videoList.size();
             }
             Review review = reviewsList.get(position - positionsToIgnore);

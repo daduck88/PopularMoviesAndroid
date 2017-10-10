@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/lib-auto">
+<layout xmlns:app2="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/lib-auto">
     <data>
         <variable
             name="movie"
@@ -9,53 +10,52 @@
             name="listener"
             type="com.android.popularmoviesapp.app.detail.DetailAdapter.OnFavoriteClickListener"/>
     </data>
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_poster"
+            android:layout_width="@dimen/poster_width"
+            android:layout_height="@dimen/poster_height"
+            android:layout_marginLeft="@dimen/default_medium"
+            android:layout_marginTop="@dimen/default_medium"
+            app2:layout_constraintStart_toStartOf="parent"
+            app2:layout_constraintTop_toTopOf="parent"
+            app:imageUrl="@{movie.posterPathURL}" />
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_release_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:padding="16dp"
-            android:text="@{movie.title, default=Title}"
-            android:textColor="@android:color/black"
-            android:textSize="34sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/default_medium"
+            android:layout_marginTop="@dimen/default_medium"
+            app2:layout_constraintTop_toTopOf="parent"
+            app2:layout_constraintStart_toEndOf="@+id/iv_poster"
+            android:text="@{movie.releaseDate}"/>
+        <TextView
+            android:id="@+id/tv_vote"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="220dp"
-                android:layout_margin="8dp"
-                app:imageUrl="@{movie.posterPathURL}"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{movie.releaseDate}"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{movie.voteAverage}"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{movie.favoriteButtonAction}"
-                    android:onClick="@{(theView) -> listener.onFavoriteClick()}"/>
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_marginLeft="@dimen/default_medium"
+            android:layout_marginTop="@dimen/default_small"
+            app2:layout_constraintTop_toBottomOf="@+id/tv_release_date"
+            app2:layout_constraintStart_toEndOf="@+id/iv_poster"
+            android:text="@{movie.voteAverage}"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_medium"
+            android:layout_marginTop="@dimen/default_small"
+            app2:layout_constraintTop_toBottomOf="@+id/tv_vote"
+            app2:layout_constraintStart_toEndOf="@+id/iv_poster"
+            android:text="@{movie.favoriteButtonAction}"
+            android:onClick="@{(theView) -> listener.onFavoriteClick()}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:padding="@dimen/default_medium"
+            app2:layout_constraintTop_toBottomOf="@+id/iv_poster"
+            app2:layout_constraintStart_toStartOf="parent"
             android:text="@{movie.overview}"/>
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

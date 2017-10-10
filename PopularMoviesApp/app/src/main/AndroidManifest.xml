@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.detail.DetailActivity" />
+        <activity android:name=".app.detail.DetailActivity"
+            android:theme="@style/NotToolbarTheme"/>
 
         <!-- Our ContentProvider -->
         <provider
